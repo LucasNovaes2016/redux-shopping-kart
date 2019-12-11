@@ -2,11 +2,11 @@ import React from "react";
 import { ProjectInfo } from "./jumbotron";
 import { ProductList } from "./productslist";
 
-export const MainPage = () => {
+export const MainPage = ({products}) => {
   return (
     <>
       <ProjectInfo />
-      <ProductList />
+      <ProductList products={products} />
     </>
   );
 };

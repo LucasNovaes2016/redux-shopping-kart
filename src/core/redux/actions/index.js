@@ -1,10 +1,11 @@
 import {
-    GET_KART_PRODUCTS,
+    ADD_PRODUCT_TO_KART
   } from '../types';
   
-  // Get Kart Products
-  export const getKartProducts = () => {
+  // Add Product to Kart
+  export const addProductToKart = (product_payloadd) => {
     dispatch({
-        type: GET_KART_PRODUCTS,
+        type: ADD_PRODUCT_TO_KART,
+        payload: product_payload,
       });
   };

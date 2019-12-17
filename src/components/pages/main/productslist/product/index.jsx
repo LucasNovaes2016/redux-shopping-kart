@@ -1,12 +1,18 @@
 import React from "react";
+import { useDispatch } from 'react-redux'
+import { ADD_PRODUCT_TO_KART } from '../../../../../core/redux/types'
 
 export const ProductItem = ({ product }) => {
-  const [productQuantity, setProductQuantity] = React.useState(0);
+  const [productQuantity, setProductQuantity] = React.useState(1);
   const [addMode, setAddMode] = React.useState(false);
 
+  const dispatch = useDispatch()
+
+
   const addProductToKart = () => {
-    console.log("Adicionar produto ao carrinho quantidade = ", productQuantity);
+    dispatch({ type: ADD_PRODUCT_TO_KART, payload: {product, productQuantity} })
     setAddMode(false);
+    setProductQuantity(1);
   };
 
   return (
@@ -24,8 +30,8 @@ export const ProductItem = ({ product }) => {
                 value={productQuantity}
                 onChange={e => {
                   if (e.target.value === "") {
-                    setProductQuantity(0);
-                  } else if (e.target.value >= 0) {
+                    setProductQuantity(1);
+                  } else if (e.target.value > 0) {
                     setProductQuantity(parseInt(e.target.value));
                   }
                 }}

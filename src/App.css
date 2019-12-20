@@ -20,6 +20,7 @@
   background-color: #f3f3f3;
 }
 
-.card-text {
-  min-height: 80px;
+.Toastify__toast {
+  height: 80px;
+  font-size: 1.1rem;
 }

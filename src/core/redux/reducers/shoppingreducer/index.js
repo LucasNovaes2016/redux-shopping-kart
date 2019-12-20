@@ -1,5 +1,5 @@
 import Products from "../../../data/local";
-import { ADD_PRODUCT_TO_KART } from "../../types";
+import { ADD_PRODUCT_TO_KART, REMOVE_PRODUCT_FROM_KART } from "../../types";
 
 const initialState = {
   store_products: Products,
@@ -21,7 +21,6 @@ export default (state = initialState, action) => {
           i = new_kart.length;
         }
       }
-
       if (!found_product) {
         new_kart.push(
           Object.assign(
@@ -32,10 +31,14 @@ export default (state = initialState, action) => {
           )
         );
       }
-
       return {
         ...state,
         kart_products: new_kart
+      };
+    case ADD_PRODUCT_TO_KART:  
+      return {
+        ...state,
+        kart_products: state.kart_products.filter((item) => item.cod !== action.payload.product_cod)
       };
     default:
       return state;

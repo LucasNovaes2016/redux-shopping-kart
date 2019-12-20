@@ -1,18 +1,23 @@
 import React from "react";
 import { useDispatch } from 'react-redux'
 import { ADD_PRODUCT_TO_KART } from '../../../../../core/redux/types'
+import { toast } from 'react-toastify';
 
 export const ProductItem = ({ product }) => {
   const [productQuantity, setProductQuantity] = React.useState(1);
   const [addMode, setAddMode] = React.useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
 
   const addProductToKart = () => {
-    dispatch({ type: ADD_PRODUCT_TO_KART, payload: {product, productQuantity} })
+    dispatch({ type: ADD_PRODUCT_TO_KART, payload: {product, productQuantity} });
     setAddMode(false);
     setProductQuantity(1);
+
+    const message = (productQuantity > 1 ? "Produtos adicionados" : "produto adicionado") + " ao carrinho com sucesso!";
+
+    toast.success(message);
   };
 
   return (
@@ -66,41 +71,3 @@ export const ProductItem = ({ product }) => {
     </div>
   );
 };
-
-// (
-//   <div className="mt-2">
-//     <input
-//       type="number"
-//       className="form-control small-input my-2"
-//       value={productQuantity}
-//       onChange={e => {
-//         if (e.target.value == "") {
-//           setProductQuantity(0);
-//         } else if (e.target.value >= 0) {
-//           setProductQuantity(e.target.value);
-//         }
-//       }}
-//     />
-//     <button
-//       href="#"
-//       className="btn btn-success btn-block rounded-0 my-2"
-//       onClick={addProductToKart}
-// //     >
-//       Adicionar Quantidade
-//     </button>
-//   </div>
-// ) : (
-//   <div className="text-center">
-//     <button
-//       href="#"
-//       className="btn btn-block btn-primary rounded-0"
-//       onClick={setAddMode(true)}
-//     >
-//       <i
-//         className="fa fa-shopping-cart fa-lg mr-2"
-//         aria-hidden="true"
-//       ></i>
-//       Adicionar
-//     </button>
-//   </div>
-// )

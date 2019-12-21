@@ -1,5 +1,9 @@
 import Products from "../../../data/local";
-import { ADD_PRODUCT_TO_KART, REMOVE_PRODUCT_FROM_KART } from "../../types";
+import {
+  ADD_PRODUCT_TO_KART,
+  REMOVE_PRODUCT_FROM_KART,
+  BUY_PRODUCTS_FROM_KART
+} from "../../types";
 
 const initialState = {
   store_products: Products,
@@ -10,19 +14,17 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT_TO_KART:
-      let new_kart = state.kart_products;
-
       let found_product = false;
 
-      for (let i = 0; i < new_kart.length; i++) {
-        if (new_kart[i].cod === action.payload.product.cod) {
-          new_kart[i].quantity += action.payload.productQuantity;
+      for (let i = 0; i < state.kart_products.length; i++) {
+        if (state.kart_products[i].cod === action.payload.product.cod) {
+          state.kart_products[i].quantity += action.payload.productQuantity;
           found_product = true;
-          i = new_kart.length;
+          i = state.kart_products.length;
         }
       }
       if (!found_product) {
-        new_kart.push(
+        state.kart_products.push(
           Object.assign(
             {
               quantity: action.payload.productQuantity
@@ -32,13 +34,38 @@ export default (state = initialState, action) => {
         );
       }
       return {
-        ...state,
-        kart_products: new_kart
+        ...state
       };
-    case ADD_PRODUCT_TO_KART:  
+    case REMOVE_PRODUCT_FROM_KART:
       return {
         ...state,
-        kart_products: state.kart_products.filter((item) => item.cod !== action.payload.product_cod)
+        kart_products: state.kart_products.filter(
+          item => item.cod !== action.payload
+        )
+      };
+    case BUY_PRODUCTS_FROM_KART:
+      state.kart_products.forEach(item => {
+        let found_product = false;
+        for (let i = 0; i < state.purchased_products.length; i++) {
+          if (state.purchased_products[i].cod === item.cod) {
+            state.purchased_products[i].quantity += item.quantity;
+            found_product = true;
+            i = state.purchased_products.length;
+          }
+        }
+        if (!found_product) {
+          state.purchased_products.push({
+            cod: item.cod,
+            quantity: item.quantity,
+            name: item.name,
+            description: item.description
+          });
+        }
+      });
+
+      return {
+        ...state,
+        kart_products: [],
       };
     default:
       return state;

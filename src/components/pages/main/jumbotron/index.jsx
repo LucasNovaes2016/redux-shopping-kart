@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export const ProjectInfo = () => {
   return (
@@ -13,6 +13,7 @@ export const ProjectInfo = () => {
       <hr className="my-4" />
       <div className="text-center">
         <Link className="btn btn-success btn-lg rounded-0" to="/meu-carrinho">
+          <i className="fa fa-shopping-cart mr-2" aria-hidden="true"></i>
           Meu Carrinho
         </Link>
       </div>

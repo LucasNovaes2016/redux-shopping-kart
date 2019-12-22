@@ -2,9 +2,12 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   REMOVE_PRODUCT_FROM_KART,
-  BUY_PRODUCTS_FROM_KART
+  BUY_PRODUCTS_FROM_KART,
+  SET_ACTIVE_MENU_ITEM
 } from "../../../core/redux/types";
+import { convertNumberToPrice } from "../../../core/utils/functions";
 import { Link, Redirect } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function MyKart() {
   const [productsPurchased, setProductsPurchased] = React.useState(false);
@@ -15,6 +18,10 @@ export default function MyKart() {
 
   const dispatch = useDispatch();
 
+  React.useEffect(() => {
+    dispatch({ type: SET_ACTIVE_MENU_ITEM, payload: "meu-carrinho" });
+  }, []);
+
   const removeProductFromKart = cod => {
     dispatch({ type: REMOVE_PRODUCT_FROM_KART, payload: cod });
   };
@@ -22,6 +29,8 @@ export default function MyKart() {
   const buyProductsFromKart = () => {
     dispatch({ type: BUY_PRODUCTS_FROM_KART });
     setProductsPurchased(true);
+
+    toast.success("Produto(s) comprados com sucesso");
   };
 
   if (productsPurchased) {
@@ -29,7 +38,7 @@ export default function MyKart() {
   }
 
   return (
-    <table className="table shadow mt-4">
+    <table className="table table-responsive-md shadow mt-4">
       <thead className="thead-dark">
         <tr className="text-center bg-dark">
           <th colSpan="6">MEU CARRINHO</th>
@@ -48,7 +57,7 @@ export default function MyKart() {
       <tbody>
         {storeKartProducts.length === 0 ? (
           <tr>
-            <td colSpan="6"> {"Não há itens no carrinho... :("} </td>
+            <td colSpan="4"> {"Não há itens no carrinho... :("} </td>
           </tr>
         ) : (
           storeKartProducts.map(item => {
@@ -59,8 +68,8 @@ export default function MyKart() {
                 <td> {item.cod} </td>
                 <td> {item.name} </td>
                 <td> {item.quantity} </td>
-                <td> {item.price} </td>
-                <td> {(item.price * item.quantity).toFixed(2)} </td>
+                <td> R$ {convertNumberToPrice(item.price)} </td>
+                <td> R$ {convertNumberToPrice(item.price * item.quantity)} </td>
                 <td className="text-center">
                   <button
                     type="button"
@@ -86,7 +95,7 @@ export default function MyKart() {
             <h5> VALOR FINAL </h5>
           </td>
           <td>
-            <h5>{"R$ " + finalPrice.toFixed(2)}</h5>
+            <h5>{"R$ " + convertNumberToPrice(finalPrice)}</h5>
           </td>
           <td className="text-center">
             {storeKartProducts.length > 0 ? (

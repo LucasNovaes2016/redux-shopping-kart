@@ -2,13 +2,15 @@ import Products from "../../../data/local";
 import {
   ADD_PRODUCT_TO_KART,
   REMOVE_PRODUCT_FROM_KART,
-  BUY_PRODUCTS_FROM_KART
+  BUY_PRODUCTS_FROM_KART,
+  SET_ACTIVE_MENU_ITEM
 } from "../../types";
 
 const initialState = {
   store_products: Products,
   kart_products: [],
-  purchased_products: []
+  purchased_products: [],
+  active_menu_item: 'inicio',
 };
 
 export default (state = initialState, action) => {
@@ -58,6 +60,7 @@ export default (state = initialState, action) => {
             cod: item.cod,
             quantity: item.quantity,
             name: item.name,
+            brand: item.brand,
             description: item.description
           });
         }
@@ -65,7 +68,12 @@ export default (state = initialState, action) => {
 
       return {
         ...state,
-        kart_products: [],
+        kart_products: []
+      };
+    case SET_ACTIVE_MENU_ITEM:
+      return {
+        ...state,
+        active_menu_item: action.payload,
       };
     default:
       return state;

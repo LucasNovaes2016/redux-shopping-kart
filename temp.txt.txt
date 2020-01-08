@@ -1,5 +1,0 @@
-- Remover algumas colunas em dispositivos pequenos
-- Mostrar tabela de produtos comprados
-- Revisar código
-- Testar
-- Hospedar
